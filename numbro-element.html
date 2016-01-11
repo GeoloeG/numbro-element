@@ -7,7 +7,7 @@ A CSS friendly element wrapper for the [numbro.js](http://numbrojs.com/) library
 
 ### Example
 
-    <numbro-element 
+    <numbro-element
       value="1000"
       format="0,0">
     </numbro-element>
@@ -134,7 +134,7 @@ Custom property | Description | Default
         var formatted;
         if (this.currency) {
           if (this.format) {
-            formatted = numbro(value).formatCurrency(this.format);            
+            formatted = numbro(value).formatCurrency(this.format);
           } else {
             formatted = numbro(value).formatCurrency();
           }
@@ -188,10 +188,8 @@ Custom property | Description | Default
        * @param {string} input value.
        */
       _render: function(value) {
-        console.log("formatted: " + value);
         var regex = /([^\.,\d]*)([\.,\d]*)(\D*)/i;
         var result = regex.exec(value).slice(1);
-        console.log("result: " + result);
         this.$.prefix.innerHTML = result[0];
         this.$.value.innerHTML = result[1];
         this.$.suffix.innerHTML = result[2];
