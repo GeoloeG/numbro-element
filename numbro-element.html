@@ -79,6 +79,15 @@ Custom property | Description | Default
         },
 
         /**
+         * Reflect if the value is negative
+         */
+        negative: {
+          type: Boolean,
+          readOnly: true,
+          reflectToAttribute: true
+        },
+
+        /**
          * A formatted String to extract a value from
          */
         unformat: {
@@ -132,7 +141,12 @@ Custom property | Description | Default
        */
       _format: function(value) {
         var formatted;
-        if (this.currency) {
+        if ( value < 0 ) {
+          this._setNegative(true);
+        } else {
+          this._setNegative(false);
+        }
+        if ( this.currency ) {
           if (this.format) {
             formatted = numbro(value).formatCurrency(this.format);
           } else {

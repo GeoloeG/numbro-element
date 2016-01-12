@@ -48,6 +48,11 @@
                 background-color: var(--paper-green-500);
               };
             }
+            numbro-element.global[negative] {
+              --numbro-element: {
+                background-color: var(--paper-red-500);
+              };
+            }
             numbro-element.mixed {
               --numbro-element-prefix: {
                 background-color: var(--paper-blue-500);
@@ -67,12 +72,14 @@
 
           <numbro-element class="global" value="0.77" format="+0.0%"></numbro-element>
           <br>
+          <numbro-element class="global" value="-0.77" format="+0.0%"></numbro-element>
+          <br>
           <numbro-element class="mixed" value="3456788" format="+0.0" culture="fr-FR" currency></numbro-element>
         </template>
       </demo-snippet>
 
       <h3>Try it out!</h3>
-      
+
 
     </div>
   </body>
