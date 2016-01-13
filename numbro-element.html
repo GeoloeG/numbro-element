@@ -134,6 +134,17 @@ Custom property | Description | Default
         '_format(value, format, currency)'
       ],
 
+      // Element Lifecycle
+
+      ready: function() {
+        // force a default value for format for the observer to trigger properly
+        if (this.currency) {
+          this.format = this.format || '0$';
+        } else {
+          this.format = this.format || '0,0';
+        }
+      },
+
       // Element Behavior
 
       /**
