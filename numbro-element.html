@@ -138,11 +138,7 @@ Custom property | Description | Default
 
       ready: function() {
         // force a default value for format for the observer to trigger properly
-        if (this.currency) {
-          this.format = this.format || '0$';
-        } else {
-          this.format = this.format || '0,0';
-        }
+        this.format = this.format || (this.currency ? '0$' : '0,0');
       },
 
       // Element Behavior
@@ -152,11 +148,7 @@ Custom property | Description | Default
        */
       _format: function(value) {
         var formatted;
-        if ( value < 0 ) {
-          this._setNegative(true);
-        } else {
-          this._setNegative(false);
-        }
+        this._setNegative(value < 0);
         if ( this.currency ) {
           if (this.format) {
             formatted = numbro(value).formatCurrency(this.format);
@@ -215,9 +207,9 @@ Custom property | Description | Default
       _render: function(value) {
         var regex = /([^\.,\d]*)([\.,\d]*)(\D*)/i;
         var result = regex.exec(value).slice(1);
-        this.$.prefix.innerHTML = result[0];
-        this.$.value.innerHTML = result[1];
-        this.$.suffix.innerHTML = result[2];
+        this.$.prefix.textContent = result[0];
+        this.$.value.textContent = result[1];
+        this.$.suffix.textContent = result[2];
       },
     });
   </script>
