@@ -1,6 +1,4 @@
-[![Bower version](https://badge.fury.io/bo/numbro-element.svg)](https://badge.fury.io/bo/numbro-element)
-[![Build Status](https://travis-ci.org/MeTaNoV/numbro-element.svg?branch=master)](https://travis-ci.org/MeTaNoV/numbro-element)
-[![Dependency Status](https://gemnasium.com/MeTaNoV/numbro-element.svg)](https://gemnasium.com/MeTaNoV/numbro-element)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg?style=flat-square)](https://www.webcomponents.org/element/GeoloeG/numbro-element)
 
 `<numbro-element>` is a CSS friendly element wrapper for the [numbro.js](http://numbrojs.com/) library.
 
@@ -26,6 +24,16 @@ Import Custom Element:
 
 And then use it:
 
+<!---
+```
+<custom-element-demo>
+  <template>
+    <link rel="import" href="numbro-element.html">
+	  <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
 ```html
 <numbro-element value="1000" format="0.0"></numbro-element>
 ```
