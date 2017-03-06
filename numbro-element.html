@@ -48,6 +48,7 @@ Custom property | Description | Default
       }
     </style>
 
+    <!--TODO: with update to 2.0, investigate using data-binding-->
     <span id="prefix"></span>
     <span id="value"></span>
     <span id="suffix"></span>
@@ -207,9 +208,9 @@ Custom property | Description | Default
       _render: function(value) {
         var regex = /([^\.,\d]*)([\.,\d]*)(\D*)/i;
         var result = regex.exec(value).slice(1);
-        this.$.prefix.textContent = result[0];
-        this.$.value.textContent = result[1];
-        this.$.suffix.textContent = result[2];
+        this.$.prefix.innerText = result[0];
+        this.$.value.innerText = result[1];
+        this.$.suffix.innerText = result[2];
       },
     });
   </script>
