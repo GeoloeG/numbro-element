@@ -1,0 +1,217 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="numbro-import.html">
+
+<!--
+A CSS friendly element wrapper for the [numbro.js](http://numbrojs.com/) library.
+
+### Example
+
+    <numbro-element
+      value="1000"
+      format="0,0">
+    </numbro-element>
+
+### Styling
+
+The following mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--numbro-element` | Mixin applied to the numbro element  | `{}`
+`--numbro-element-prefix` | Mixin applied to the numbro element prefix  | `{}`
+`--numbro-element-value` | Mixin applied to the numbro element value | `{}`
+`--numbro-element-suffix` | Mixin applied to the numbro element suffix | `{}`
+
+@demo demo/index.html
+@hero hero.svg
+-->
+
+<dom-module id="numbro-element">
+  <template>
+    <style>
+      :host {
+        display: inline;
+        box-sizing: border-box;
+
+        @apply(--numbro-element);
+      }
+
+      #prefix {
+        @apply(--numbro-element-prefix);
+      }
+      #value {
+        @apply(--numbro-element-value);
+      }
+      #suffix {
+        @apply(--numbro-element-suffix);
+      }
+    </style>
+
+    <!--TODO: with update to 2.0, investigate using data-binding-->
+    <span id="prefix"></span>
+    <span id="value"></span>
+    <span id="suffix"></span>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'numbro-element',
+
+      properties: {
+        /**
+         * The number value to be formatted
+         */
+        value: Number,
+
+        /**
+         * The format used to generate the output
+         */
+        format: {
+          type: String
+        },
+
+        /**
+         * Specify whether the value should be formatted as a currency
+         */
+        currency: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * Reflect if the value is negative
+         */
+        negative: {
+          type: Boolean,
+          readOnly: true,
+          reflectToAttribute: true
+        },
+
+        /**
+         * A formatted String to extract a value from
+         */
+        unformat: {
+          type: String,
+          observer: '_unformat'
+        },
+
+        /**
+         * Provide localization for currency formatting
+         */
+        culture: {
+          type: String,
+          value: 'en-US',
+          observer: '_culture'
+        },
+
+        /**
+         * Provide a new default format
+         */
+        defaultFormat: {
+          type: String,
+          observer: '_defaultFormat'
+        },
+
+        /**
+         * Provide a new default format for currency
+         */
+        defaultCurrencyFormat: {
+          type: String,
+          observer: '_defaultCurrencyFormat'
+        },
+
+        /**
+         * Provide a new default format for `0` value
+         */
+        zeroFormat: {
+          type: String,
+          observer: '_zeroFormat'
+        },
+
+      },
+
+      observers: [
+        '_format(value, format, currency)'
+      ],
+
+      // Element Lifecycle
+
+      ready: function() {
+        // force a default value for format for the observer to trigger properly
+        this.format = this.format || (this.currency ? '0$' : '0,0');
+      },
+
+      // Element Behavior
+
+      /**
+       * @param {number} input value.
+       */
+      _format: function(value) {
+        var formatted;
+        this._setNegative(value < 0);
+        if ( this.currency ) {
+          if (this.format) {
+            formatted = numbro(value).formatCurrency(this.format);
+          } else {
+            formatted = numbro(value).formatCurrency();
+          }
+        } else {
+          formatted = numbro(value).format(this.format);
+        }
+        this._render(formatted);
+      },
+
+      /**
+       * @param {string} formatted value.
+       */
+      _unformat: function(value) {
+        var unformatted = numbro().unformat(value);
+        this._render(unformatted);
+      },
+
+      /**
+       * @param {string} new culture.
+       */
+      _culture: function(culture) {
+        numbro.culture(culture);
+        this._format(this.value);
+      },
+
+      /**
+       * @param {string} new default format.
+       */
+      _defaultFormat: function(format) {
+        numbro.defaultFormat(format);
+        this._format(this.value);
+      },
+
+      /**
+       * @param {string} new default currency format.
+       */
+      _defaultCurrencyFormat: function(format) {
+        numbro.defaultCurrencyFormat(format);
+        this._format(this.value);
+      },
+
+      /**
+       * @param {string} new default zero format.
+       */
+      _zeroFormat: function(format) {
+        numbro.zeroFormat(format);
+        this._format(this.value);
+      },
+
+      /**
+       * @param {string} input value.
+       */
+      _render: function(value) {
+        var regex = /([^\.,\d]*)([\.,\d]*)(\D*)/i;
+        var result = regex.exec(value).slice(1);
+        this.$.prefix.innerText = result[0];
+        this.$.value.innerText = result[1];
+        this.$.suffix.innerText = result[2];
+      },
+    });
+  </script>
+</dom-module>
